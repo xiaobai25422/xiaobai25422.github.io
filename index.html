@@ -2,178 +2,442 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI API Token Service – Fast & Affordable</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AI Token API – Global Inference Service</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        :root {
+            --bg-body: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --border: #e2e8f0;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --code-bg: #1e293b;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+        }
+
+        body.dark {
+            --bg-body: #0f172a;
+            --bg-surface: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+            --primary: #60a5fa;
+            --primary-dark: #3b82f6;
+            --code-bg: #0f172a;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.5;
+            transition: background 0.2s, color 0.2s;
             padding: 2rem 1rem;
         }
+
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-            overflow: hidden;
-            padding: 2rem;
         }
-        h1 {
-            font-size: 2rem;
+
+        /* 顶部导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 0.5rem;
         }
-        .tagline {
-            font-size: 1.2rem;
-            color: #334155;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
+
+        .theme-toggle {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: 0.2s;
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            background: var(--bg-surface);
+            border-radius: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            padding: 1.5rem;
             margin-bottom: 2rem;
         }
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
         }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+        }
+
+        /* 定价卡片网格 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: transform 0.1s, border-color 0.2s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+        }
+
+        .model-name {
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: var(--code-bg);
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        .price small {
+            font-size: 0.9rem;
+            font-weight: normal;
+            color: var(--text-secondary);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 1rem 0;
-            background-color: #ffffff;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
         }
+
         th, td {
             text-align: left;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e2e8f0;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
         }
+
         th {
-            background-color: #f1f5f9;
+            background-color: rgba(0, 0, 0, 0.02);
             font-weight: 600;
         }
+
         .code-block {
-            background-color: #0f172a;
+            background-color: var(--code-bg);
             color: #e2e8f0;
             padding: 1rem;
             border-radius: 0.75rem;
             overflow-x: auto;
             font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            margin: 1rem 0;
+            font-size: 0.85rem;
+            position: relative;
         }
-        .badge {
-            background-color: #e6f0ff;
-            color: #1e40af;
-            font-size: 0.8rem;
-            font-weight: 500;
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #334155;
+            border: none;
+            color: white;
             padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            display: inline-block;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.7rem;
         }
-        .contact {
-            background: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            text-align: center;
+
+        .copy-btn:hover {
+            background: var(--primary);
         }
-        a {
-            color: #2563eb;
-            text-decoration: none;
+
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
         }
+
+        .faq-question {
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            user-select: none;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: var(--text-secondary);
+            margin-top: 0;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            margin-top: 0.5rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input, textarea {
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        button {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+        }
+
         footer {
             text-align: center;
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #64748b;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
         }
+
         @media (max-width: 640px) {
-            .container { padding: 1.5rem; }
-            th, td { padding: 0.5rem; }
+            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>⚡ AI Token API</h1>
-        <div class="tagline">
-            Low‑cost, high‑performance inference for developers & businesses.<br>
-            Pay only for what you use — starting at <strong>$0.14 / 1M tokens</strong>.
-        </div>
-
-        <h2>📦 Supported Models</h2>
-        <table>
-            <thead>
-                <tr><th>Model ID</th><th>Context Window</th><th>Features</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><code>deepseek/deepseek-v4-flash</code></td><td>128K</td><td>Chat, JSON mode, high speed</td></tr>
-                <tr><td><code>qwen/qwen2.5-7b-instruct</code></td><td>32K</td><td>Chat, function calling</td></tr>
-                <tr><td><code>internlm/internlm2_5-7b-chat</code></td><td>32K</td><td>Chat, multilingual</td></tr>
-                <tr><td><code>Pro/moonshotai/Kimi-K2.6</code></td><td>256K</td><td>Long context, reasoning</td></tr>
-            </tbody>
-        </table>
-        <p class="badge">➕ More models coming soon (Llama 3, Mistral, etc.)</p>
-
-        <h2>💰 Pricing (per 1M tokens)</h2>
-        <table>
-            <thead><tr><th>Model</th><th>Input</th><th>Output</th></tr></thead>
-            <tbody>
-                <tr><td>deepseek/deepseek-v4-flash</td><td>$0.14</td><td>$0.28</td></tr>
-                <tr><td>qwen/qwen2.5-7b-instruct</td><td>$0.12</td><td>$0.24</td></tr>
-                <tr><td>internlm/internlm2_5-7b-chat</td><td>$0.10</td><td>$0.20</td></tr>
-                <tr><td>Pro/moonshotai/Kimi-K2.6</td><td>$0.20</td><td>$0.40</td></tr>
-            </tbody>
-        </table>
-        <p>✅ No hidden fees — you pay exactly for the tokens consumed.</p>
-
-        <h2>🔌 API Endpoint</h2>
-        <div class="code-block">
-            Base URL: https://api.qnaigc.com/v1<br>
-            Authentication: Bearer YOUR_API_KEY<br>
-            Compatible with OpenAI chat completion format.
-        </div>
-        <p>Example request (cURL):</p>
-        <div class="code-block">
-            curl https://api.qnaigc.com/v1/chat/completions \<br>
-            &nbsp;&nbsp;-H "Content-Type: application/json" \<br>
-            &nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
-            &nbsp;&nbsp;-d '{"model": "deepseek/deepseek-v4-flash", "messages": [{"role": "user", "content": "Hello"}]}'
-        </div>
-
-        <h2>📄 Quick Start</h2>
-        <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
-            <li>Get your API key by contacting support (see below).</li>
-            <li>Use any OpenAI SDK and change the <code>base_url</code> to our endpoint.</li>
-            <li>Start making requests — usage is metered and billed per token.</li>
-        </ol>
-
-        <div class="contact">
-            <strong>📧 Contact & Support</strong><br>
-            For API keys, custom pricing, or technical questions:<br>
-            ✉️ <a href="mailto:ai-api@example.com">ai-api@example.com</a><br>
-            <span style="font-size: 0.85rem; color: #475569;">We usually reply within 24 hours.</span>
-        </div>
-        <footer>
-            Reliable AI inference • Fast routing from Asia • Wholesale token exporter<br>
-            © 2026 AI Token Service — Built for global developers
-        </footer>
+<div class="container">
+    <div class="navbar">
+        <div class="logo">⚡ AI TOKEN API</div>
+        <button class="theme-toggle" id="themeToggle">🌙 Dark Mode</button>
     </div>
+
+    <div class="card">
+        <h1>Wholesale <span class="gradient-text">AI Inference</span><br>For Global Developers</h1>
+        <div class="tagline">Starting at $0.10 / 1M tokens • OpenAI-compatible API • Pay as you grow</div>
+        <p>Direct routing from Asia, ultra-low latency, and no hidden fees. Perfect for AI agents, chatbots, and large-scale applications.</p>
+    </div>
+
+    <!-- 定价表格 + 模型卡片 -->
+    <div class="card">
+        <h2>📦 Popular Models</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="model-name">deepseek/deepseek-v4-flash</div>
+                <div class="price">$0.14 <small>/1M input</small></div>
+                <div class="price">$0.28 <small>/1M output</small></div>
+                <div>⚡ Fastest, 128K context, JSON mode</div>
+            </div>
+            <div class="pricing-card">
+                <div class="model-name">qwen/qwen2.5-7b-instruct</div>
+                <div class="price">$0.10 <small>/1M input</small></div>
+                <div class="price">$0.20 <small>/1M output</small></div>
+                <div>🌍 Great for multilingual & function calling</div>
+            </div>
+            <div class="pricing-card">
+                <div class="model-name">internlm/internlm2_5-7b-chat</div>
+                <div class="price">$0.08 <small>/1M input</small></div>
+                <div class="price">$0.16 <small>/1M output</small></div>
+                <div>📚 Strong reasoning, low cost</div>
+            </div>
+        </div>
+        <p style="margin-top: 1rem;">➕ <strong>More models:</strong> Llama 3.3, Mistral, Claude‑compatible (via proxy) – contact us for custom integration.</p>
+    </div>
+
+    <!-- 完整价格表 -->
+    <div class="card">
+        <h2>💰 Detailed Pricing (per 1M tokens)</h2>
+        <table>
+            <thead><tr><th>Model ID</th><th>Input</th><th>Output</th><th>Context</th></tr></thead>
+            <tbody>
+                <tr><td><code>deepseek/deepseek-v4-flash</code></td><td>$0.14</td><td>$0.28</td><td>128K</td></tr>
+                <tr><td><code>qwen/qwen2.5-7b-instruct</code></td><td>$0.10</td><td>$0.20</td><td>32K</td></tr>
+                <tr><td><code>internlm/internlm2_5-7b-chat</code></td><td>$0.08</td><td>$0.16</td><td>32K</td></tr>
+                <tr><td><code>Pro/moonshotai/Kimi-K2.6</code></td><td>$0.20</td><td>$0.40</td><td>256K</td></tr>
+            </tbody>
+        </table>
+        <p>*Volume discounts available above 50M tokens/month. Contact sales.</p>
+    </div>
+
+    <!-- API 端点与示例 -->
+    <div class="card">
+        <h2>🔌 API Endpoint</h2>
+        <div class="code-block" style="position: relative;">
+            <code>Base URL: https://api.qnaigc.com/v1<br>Authorization: Bearer YOUR_API_KEY</code>
+            <button class="copy-btn" data-clipboard="https://api.qnaigc.com/v1">复制 Base URL</button>
+        </div>
+        <h3 style="margin: 1rem 0 0.5rem;">cURL 示例</h3>
+        <div class="code-block" style="position: relative;" id="curlBlock">
+            <pre style="margin: 0; white-space: pre-wrap;">curl -X POST https://api.qnaigc.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -d '{
+    "model": "deepseek/deepseek-v4-flash",
+    "messages": [{"role": "user", "content": "Hello, world!"}],
+    "max_tokens": 100
+  }'</pre>
+            <button class="copy-btn" data-clipboard-target="#curlBlock pre">复制命令</button>
+        </div>
+        <p style="margin-top: 1rem;">✅ Compatible with OpenAI Python/JS SDKs – just change <code>base_url</code> and <code>api_key</code>.</p>
+    </div>
+
+    <!-- FAQ 折叠面板 -->
+    <div class="card">
+        <h2>❓ Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question">How do I get an API key? <span>+</span></div>
+            <div class="faq-answer">Contact us via the form below or email ai-api@example.com. We will issue a key within 24 hours.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What payment methods do you accept? <span>+</span></div>
+            <div class="faq-answer">PayPal, USDC (coming soon), and wire transfer for high-volume customers.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Is there a free trial? <span>+</span></div>
+            <div class="faq-answer">Yes, new users receive $5 credit after signing up. Contact us to request.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Do you support streaming and function calling? <span>+</span></div>
+            <div class="faq-answer">Yes, fully compatible with OpenAI’s streaming and tools API.</div>
+        </div>
+    </div>
+
+    <!-- 联系表单（静态演示） -->
+    <div class="card">
+        <h2>📬 Request API Key / Get in Touch</h2>
+        <form class="contact-form" id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <textarea rows="3" placeholder="Tell us about your project or required model"></textarea>
+            <button type="submit">Send Message (Demo)</button>
+        </form>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">✉️ Or email directly: <strong>ai-api@example.com</strong> – we reply within 24h.</p>
+    </div>
+
+    <footer>
+        © 2026 AI Token Service — Global Wholesale Token Exporter<br>
+        Reliable • Fast • Developer‑First
+    </footer>
+</div>
+
+<script>
+    // 主题切换
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.textContent = '☀️ Light Mode';
+    }
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        themeToggle.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+
+    // 复制功能 (简单实现)
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            let text = '';
+            if (btn.dataset.clipboard) {
+                text = btn.dataset.clipboard;
+            } else if (btn.dataset.clipboardTarget) {
+                const target = document.querySelector(btn.dataset.clipboardTarget);
+                text = target.innerText;
+            } else {
+                const parent = btn.parentElement;
+                const code = parent.querySelector('code, pre');
+                text = code ? code.innerText : '';
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = '✓ 已复制';
+                setTimeout(() => btn.innerText = originalText, 1500);
+            }).catch(() => alert('手动复制失败'));
+        });
+    });
+
+    // FAQ 折叠
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            item.classList.toggle('open');
+            const span = q.querySelector('span');
+            if (span) span.innerText = item.classList.contains('open') ? '−' : '+';
+        });
+    });
+
+    // 联系表单演示提示
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('感谢联系！目前为演示页面，实际消息将发送至 ai-api@example.com。\n请通过邮箱直接联系我们。');
+    });
+</script>
 </body>
 </html>
